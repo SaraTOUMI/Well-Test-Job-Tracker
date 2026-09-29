@@ -8,344 +8,524 @@
 5
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 6
-<title>Job Tracking Dashboard</title>
+<title>Well Test Job Tracker</title>
 7
  
 8
 <style>
 9
-body {
+body{
 10
 font-family: Arial, sans-serif;
 11
-background: #f4f6f9;
+margin:20px;
 12
-margin: 20px;
+background:#f4f6f9;
 13
 }
 14
  
 15
-h1 {
+h1{
 16
-text-align: center;
+text-align:center;
 17
-color: #003366;
+color:#003366;
 18
 }
 19
  
 20
-.container {
+.dashboard{
 21
-max-width: 1200px;
+display:flex;
 22
-margin: auto;
+gap:15px;
 23
-background: white;
+margin-bottom:20px;
 24
-padding: 20px;
-25
-border-radius: 10px;
-26
-box-shadow: 0 0 10px rgba(0,0,0,0.1);
-27
 }
-28
+25
  
+26
+.card{
+27
+background:white;
+28
+padding:15px;
 29
-table {
+border-radius:10px;
 30
-width: 100%;
+flex:1;
 31
-border-collapse: collapse;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
 32
-margin-top: 20px;
+text-align:center;
 33
 }
 34
  
 35
-th {
+.card h2{
 36
-background: #003366;
+margin:0;
 37
-color: white;
+color:#003366;
 38
-padding: 10px;
+}
 39
-}
+ 
 40
- 
+.card p{
 41
-td {
+font-size:24px;
 42
-padding: 8px;
+margin-top:10px;
 43
-border: 1px solid #ddd;
+}
 44
-text-align: center;
+ 
 45
-}
+button{
 46
- 
+background:#0078d4;
 47
-input, select {
+color:white;
 48
-width: 100%;
+border:none;
 49
-border: none;
+padding:10px 15px;
 50
-padding: 5px;
+border-radius:5px;
 51
-}
+cursor:pointer;
 52
- 
+}
 53
-button {
+ 
 54
-background: #0078D4;
+button:hover{
 55
-color: white;
+background:#005fa3;
 56
-border: none;
+}
 57
-padding: 10px 15px;
+ 
 58
-border-radius: 5px;
+table{
 59
-cursor: pointer;
+width:100%;
 60
-margin-top: 10px;
+border-collapse:collapse;
 61
-}
+background:white;
 62
- 
+}
 63
-button:hover {
+ 
 64
-background: #005A9E;
+th, td{
 65
-}
+border:1px solid #ddd;
 66
- 
+padding:10px;
 67
-.completed {
+}
 68
-background-color: #d4edda;
+ 
 69
-}
+th{
 70
- 
+background:#003366;
 71
-.inprogress {
+color:white;
 72
-background-color: #fff3cd;
+}
 73
-}
+ 
 74
- 
+input, select{
 75
-.pending {
+width:100%;
 76
-background-color: #f8d7da;
+border:none;
 77
-}
+padding:5px;
 78
-</style>
+}
 79
-</head>
+ 
 80
- 
+.progress{
 81
-<body>
+width:100%;
 82
- 
+}
 83
-<div class="container">
+ 
 84
-<h1>Jobs Tracking Dashboard</h1>
+.search{
 85
- 
+width:300px;
 86
-<button onclick="addRow()">+ Add Job</button>
+padding:10px;
 87
- 
+margin-bottom:10px;
 88
-<table id="jobTable">
+}
 89
-<thead>
+</style>
 90
-<tr>
+</head>
 91
-<th>Job ID</th>
-92
-<th>Description</th>
-93
-<th>Client</th>
-94
-<th>Assigned To</th>
-95
-<th>Start Date</th>
-96
-<th>Due Date</th>
-97
-<th>Status</th>
-98
-<th>% Complete</th>
-99
-<th>Action</th>
-100
-</tr>
-101
-</thead>
-102
  
-103
-<tbody>
-104
-<tr>
-105
-<td><input value="JOB-001"></td>
-106
-<td><input value="Pressure Switch Review"></td>
-107
-<td><input value="SONATRACH"></td>
-108
-<td><input value="Sara"></td>
-109
-<td><input type="date"></td>
-110
-<td><input type="date"></td>
-111
-<td>
-112
-<select onchange="updateColor(this)">
-113
-<option>Pending</option>
-114
-<option selected>In Progress</option>
-115
-<option>Completed</option>
-116
-</select>
-117
-</td>
-118
-<td><input type="number" value="50"></td>
-119
-<td>
-120
-<button onclick="deleteRow(this)">Delete</button>
-121
-</td>
-122
-</tr>
-123
-</tbody>
-124
-</table>
-125
+92
+<body>
+93
+ 
+94
+<h1>Well Test Job Tracker</h1>
+95
+ 
+96
+<div class="dashboard">
+97
+<div class="card">
+98
+<h2>Total Jobs</h2>
+99
+<p id="totalJobs">1</p>
+100
 </div>
+101
+ 
+102
+<div class="card">
+103
+<h2>Pending</h2>
+104
+<p id="pendingJobs">0</p>
+105
+</div>
+106
+ 
+107
+<div class="card">
+108
+<h2>In Progress</h2>
+109
+<p id="progressJobs">1</p>
+110
+</div>
+111
+ 
+112
+<div class="card">
+113
+<h2>Completed</h2>
+114
+<p id="completedJobs">0</p>
+115
+</div>
+116
+</div>
+117
+ 
+118
+<input
+119
+class="search"
+120
+type="text"
+121
+id="searchInput"
+122
+placeholder="Search..."
+123
+onkeyup="searchJobs()">
+124
+ 
+125
+<button onclick="addRow()">+ Add Job</button>
 126
  
 127
-<script>
+<table id="jobTable">
 128
- 
+<thead>
 129
-function addRow() {
+<tr>
 130
-let table = document.getElementById("jobTable").getElementsByTagName('tbody')[0];
+<th>Job No</th>
 131
- 
+<th>Well Name</th>
 132
-let row = table.insertRow();
+<th>Equipment</th>
 133
- 
+<th>Assigned To</th>
 134
-row.innerHTML = `
+<th>Status</th>
 135
-<td><input></td>
+<th>Due Date</th>
 136
-<td><input></td>
+<th>Progress %</th>
 137
-<td><input></td>
+<th>Action</th>
 138
-<td><input></td>
+</tr>
 139
-<td><input type="date"></td>
+</thead>
 140
-<td><input type="date"></td>
+ 
 141
-<td>
+<tbody>
 142
-<select onchange="updateColor(this)">
+ 
 143
-<option>Pending</option>
+<tr>
 144
-<option>In Progress</option>
+<td><input value="WT-001"></td>
 145
-<option>Completed</option>
+<td><input value="MDH-25"></td>
 146
-</select>
+<td><input value="Separator"></td>
 147
-</td>
+<td><input value="Sara"></td>
 148
-<td><input type="number" min="0" max="100"></td>
+ 
 149
-<td><button onclick="deleteRow(this)">Delete</button></td>
+<td>
 150
-`;
+<select>
 151
-}
+<option>Pending</option>
 152
- 
+<option selected>In Progress</option>
 153
-function deleteRow(btn) {
+<option>Completed</option>
 154
-let row = btn.parentNode.parentNode;
+</select>
 155
-row.remove();
+</td>
 156
-}
-157
  
+157
+<td>
 158
-function updateColor(select) {
+<input type="date">
 159
-let row = select.parentNode.parentNode;
+</td>
 160
  
 161
-row.classList.remove("pending","inprogress","completed");
+<td>
 162
- 
+<input class="progress" type="number" value="50">
 163
-if(select.value === "Pending")
+</td>
 164
-row.classList.add("pending");
+ 
 165
- 
+<td>
 166
-if(select.value === "In Progress")
+<button onclick="deleteRow(this)">
 167
-row.classList.add("inprogress");
+Delete
 168
- 
+</button>
 169
-if(select.value === "Completed")
+</td>
 170
-row.classList.add("completed");
+</tr>
 171
-}
-172
  
+172
+</tbody>
 173
-</script>
+</table>
 174
  
 175
-</body>
+<script>
 176
+ 
+177
+function addRow(){
+178
+ 
+179
+const table =
+180
+document.querySelector("#jobTable tbody");
+181
+ 
+182
+const row =
+183
+table.insertRow();
+184
+ 
+185
+row.innerHTML = `
+186
+<td><input></td>
+187
+<td><input></td>
+188
+<td><input></td>
+189
+<td><input></td>
+190
+ 
+191
+<td>
+192
+<select>
+193
+<option>Pending</option>
+194
+<option>In Progress</option>
+195
+<option>Completed</option>
+196
+</select>
+197
+</td>
+198
+ 
+199
+<td>
+200
+<input type="date">
+201
+</td>
+202
+ 
+203
+<td>
+204
+<input type="number" value="0">
+205
+</td>
+206
+ 
+207
+<td>
+208
+<button onclick="deleteRow(this)">
+209
+Delete
+210
+</button>
+211
+</td>
+212
+`;
+213
+ 
+214
+updateDashboard();
+215
+}
+216
+ 
+217
+function deleteRow(btn){
+218
+ 
+219
+btn.parentElement.parentElement.remove();
+220
+ 
+221
+updateDashboard();
+222
+}
+223
+ 
+224
+function updateDashboard(){
+225
+ 
+226
+let rows =
+227
+document.querySelectorAll(
+228
+"#jobTable tbody tr"
+229
+);
+230
+ 
+231
+document.getElementById(
+232
+"totalJobs"
+233
+).innerText = rows.length;
+234
+ 
+235
+}
+236
+ 
+237
+function searchJobs(){
+238
+ 
+239
+let input =
+240
+document.getElementById(
+241
+"searchInput"
+242
+).value.toUpperCase();
+243
+ 
+244
+let rows =
+245
+document.querySelectorAll(
+246
+"#jobTable tbody tr"
+247
+);
+248
+ 
+249
+rows.forEach(row=>{
+250
+ 
+251
+let text =
+252
+row.innerText.toUpperCase();
+253
+ 
+254
+row.style.display =
+255
+text.includes(input)
+256
+? ""
+257
+: "none";
+258
+ 
+259
+});
+260
+ 
+261
+}
+262
+ 
+263
+</script>
+264
+ 
+265
+</body>
+266
 </html>
