@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+2
+<html lang="en">
+3
+<head>
+4
+<meta charset="UTF-8">
+5
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+6
+<title>Job Tracking Dashboard</title>
+7
+ 
+8
+<style>
+9
+body {
+10
+font-family: Arial, sans-serif;
+11
+background: #f4f6f9;
+12
+margin: 20px;
+13
+}
+14
+ 
+15
+h1 {
+16
+text-align: center;
+17
+color: #003366;
+18
+}
+19
+ 
+20
+.container {
+21
+max-width: 1200px;
+22
+margin: auto;
+23
+background: white;
+24
+padding: 20px;
+25
+border-radius: 10px;
+26
+box-shadow: 0 0 10px rgba(0,0,0,0.1);
+27
+}
+28
+ 
+29
+table {
+30
+width: 100%;
+31
+border-collapse: collapse;
+32
+margin-top: 20px;
+33
+}
+34
+ 
+35
+th {
+36
+background: #003366;
+37
+color: white;
+38
+padding: 10px;
+39
+}
+40
+ 
+41
+td {
+42
+padding: 8px;
+43
+border: 1px solid #ddd;
+44
+text-align: center;
+45
+}
+46
+ 
+47
+input, select {
+48
+width: 100%;
+49
+border: none;
+50
+padding: 5px;
+51
+}
+52
+ 
+53
+button {
+54
+background: #0078D4;
+55
+color: white;
+56
+border: none;
+57
+padding: 10px 15px;
+58
+border-radius: 5px;
+59
+cursor: pointer;
+60
+margin-top: 10px;
+61
+}
+62
+ 
+63
+button:hover {
+64
+background: #005A9E;
+65
+}
+66
+ 
+67
+.completed {
+68
+background-color: #d4edda;
+69
+}
+70
+ 
+71
+.inprogress {
+72
+background-color: #fff3cd;
+73
+}
+74
+ 
+75
+.pending {
+76
+background-color: #f8d7da;
+77
+}
+78
+</style>
+79
+</head>
+80
+ 
+81
+<body>
+82
+ 
+83
+<div class="container">
+84
+<h1>Jobs Tracking Dashboard</h1>
+85
+ 
+86
+<button onclick="addRow()">+ Add Job</button>
+87
+ 
+88
+<table id="jobTable">
+89
+<thead>
+90
+<tr>
+91
+<th>Job ID</th>
+92
+<th>Description</th>
+93
+<th>Client</th>
+94
+<th>Assigned To</th>
+95
+<th>Start Date</th>
+96
+<th>Due Date</th>
+97
+<th>Status</th>
+98
+<th>% Complete</th>
+99
+<th>Action</th>
+100
+</tr>
+101
+</thead>
+102
+ 
+103
+<tbody>
+104
+<tr>
+105
+<td><input value="JOB-001"></td>
+106
+<td><input value="Pressure Switch Review"></td>
+107
+<td><input value="SONATRACH"></td>
+108
+<td><input value="Sara"></td>
+109
+<td><input type="date"></td>
+110
+<td><input type="date"></td>
+111
+<td>
+112
+<select onchange="updateColor(this)">
+113
+<option>Pending</option>
+114
+<option selected>In Progress</option>
+115
+<option>Completed</option>
+116
+</select>
+117
+</td>
+118
+<td><input type="number" value="50"></td>
+119
+<td>
+120
+<button onclick="deleteRow(this)">Delete</button>
+121
+</td>
+122
+</tr>
+123
+</tbody>
+124
+</table>
+125
+</div>
+126
+ 
+127
+<script>
+128
+ 
+129
+function addRow() {
+130
+let table = document.getElementById("jobTable").getElementsByTagName('tbody')[0];
+131
+ 
+132
+let row = table.insertRow();
+133
+ 
+134
+row.innerHTML = `
+135
+<td><input></td>
+136
+<td><input></td>
+137
+<td><input></td>
+138
+<td><input></td>
+139
+<td><input type="date"></td>
+140
+<td><input type="date"></td>
+141
+<td>
+142
+<select onchange="updateColor(this)">
+143
+<option>Pending</option>
+144
+<option>In Progress</option>
+145
+<option>Completed</option>
+146
+</select>
+147
+</td>
+148
+<td><input type="number" min="0" max="100"></td>
+149
+<td><button onclick="deleteRow(this)">Delete</button></td>
+150
+`;
+151
+}
+152
+ 
+153
+function deleteRow(btn) {
+154
+let row = btn.parentNode.parentNode;
+155
+row.remove();
+156
+}
+157
+ 
+158
+function updateColor(select) {
+159
+let row = select.parentNode.parentNode;
+160
+ 
+161
+row.classList.remove("pending","inprogress","completed");
+162
+ 
+163
+if(select.value === "Pending")
+164
+row.classList.add("pending");
+165
+ 
+166
+if(select.value === "In Progress")
+167
+row.classList.add("inprogress");
+168
+ 
+169
+if(select.value === "Completed")
+170
+row.classList.add("completed");
+171
+}
+172
+ 
+173
+</script>
+174
+ 
+175
+</body>
+176
+</html>
