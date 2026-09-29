@@ -1,25 +1,261 @@
 <!DOCTYPE html>
 2
-<html>
+<html lang="en">
 3
-<head>
+ 
 4
-<title>Test</title>
+<head>
 5
-</head>
+<meta charset="UTF-8">
 6
-<body>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 7
- 
+<title>Well Test Job Tracker</title>
 8
-<h1>My Well Test Tracker</h1>
+ 
 9
- 
+<style>
 10
-<p>If you can see this message, the website is working correctly.</p>
-11
  
+11
+body {
 12
-</body>
+font-family: Arial, sans-serif;
 13
+background-color: #f4f6f9;
+14
+margin: 20px;
+15
+}
+16
+ 
+17
+h1 {
+18
+color: #003366;
+19
+}
+20
+ 
+21
+button {
+22
+background-color: #0078d4;
+23
+color: white;
+24
+border: none;
+25
+padding: 10px 15px;
+26
+cursor: pointer;
+27
+border-radius: 5px;
+28
+}
+29
+ 
+30
+button:hover {
+31
+background-color: #005a9e;
+32
+}
+33
+ 
+34
+table {
+35
+width: 100%;
+36
+border-collapse: collapse;
+37
+margin-top: 15px;
+38
+}
+39
+ 
+40
+th {
+41
+background-color: #003366;
+42
+color: white;
+43
+padding: 10px;
+44
+}
+45
+ 
+46
+td {
+47
+border: 1px solid #ddd;
+48
+padding: 5px;
+49
+}
+50
+ 
+51
+input, select {
+52
+width: 100%;
+53
+padding: 5px;
+54
+box-sizing: border-box;
+55
+}
+56
+ 
+57
+</style>
+58
+ 
+59
+</head>
+60
+ 
+61
+<body>
+62
+ 
+63
+<h1>Well Test Job Tracker</h1>
+64
+ 
+65
+<button onclick="addRow()">+ Add Job</button>
+66
+ 
+67
+<table id="jobTable">
+68
+ 
+69
+<tr>
+70
+<th>Job No</th>
+71
+<th>Client</th>
+72
+<th>Well Name</th>
+73
+<th>Status</th>
+74
+<th>Delete</th>
+75
+</tr>
+76
+ 
+77
+<tr>
+78
+<td><input value="WT-001"></td>
+79
+<td><input value="SONATRACH"></td>
+80
+<td><input value="MDZ-01"></td>
+81
+ 
+82
+<td>
+83
+<select>
+84
+<option>Pending</option>
+85
+<option selected>In Progress</option>
+86
+<option>Completed</option>
+87
+</select>
+88
+</td>
+89
+ 
+90
+<td>
+91
+<button onclick="deleteRow(this)">X</button>
+92
+</td>
+93
+ 
+94
+</tr>
+95
+ 
+96
+</table>
+97
+ 
+98
+<script>
+99
+ 
+100
+function addRow() {
+101
+ 
+102
+var table = document.getElementById("jobTable");
+103
+ 
+104
+var row = table.insertRow(-1);
+105
+ 
+106
+row.innerHTML =
+107
+'<td><input value=""></td>' +
+108
+'<td><input value=""></td>' +
+109
+'<td><input value=""></td>' +
+110
+'<td><select>' +
+111
+'<option>Pending</option>' +
+112
+'<option>In Progress</option>' +
+113
+'<option>Completed</option>' +
+114
+'</select></td>' +
+115
+'<td><button onclick="deleteRow(this)">X</button></td>';
+116
+ 
+117
+}
+118
+ 
+119
+function deleteRow(button) {
+120
+ 
+121
+var row = button.parentNode.parentNode;
+122
+ 
+123
+row.parentNode.removeChild(row);
+124
+ 
+125
+}
+126
+ 
+127
+</script>
+128
+ 
+129
+</body>
+130
+ 
+131
 </html>
