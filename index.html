@@ -1,117 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
- 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
 <title>Well Test Job Tracker</title>
  
 <style>
- 
 body{
-font-family:Segoe UI,Arial,sans-serif;
-background:#f4f6f9;
-margin:20px;
+font-family: Arial, sans-serif;
+margin: 20px;
+background-color: #f4f6f9;
 }
  
 h1{
-color:#003366;
-margin-bottom:20px;
+color: #003366;
 }
  
 .dashboard{
-display:flex;
-gap:20px;
-flex-wrap:wrap;
-margin-bottom:20px;
+display: flex;
+gap: 20px;
+margin-bottom: 20px;
 }
  
 .card{
-background:white;
-width:180px;
-padding:20px;
-border-radius:12px;
-box-shadow:0 2px 8px rgba(0,0,0,0.15);
-text-align:center;
-}
- 
-.card h3{
-margin:0;
-font-size:32px;
-color:#003366;
-}
- 
-.card p{
-margin-top:10px;
-color:#666;
-}
- 
-.actions{
-margin-bottom:20px;
+background: white;
+padding: 15px;
+border-radius: 10px;
+box-shadow: 0 0 5px #ccc;
+min-width: 150px;
+text-align: center;
 }
  
 button{
-background:#0078d4;
-color:white;
-border:none;
-padding:10px 15px;
-border-radius:6px;
-cursor:pointer;
-margin-right:10px;
+background: #0078d4;
+color: white;
+border: none;
+padding: 10px 15px;
+border-radius: 5px;
+cursor: pointer;
+margin-right: 10px;
 }
  
 button:hover{
-background:#005a9e;
-}
- 
-.delete-btn{
-background:red;
-}
- 
-.save-btn{
-background:green;
+background: #005a9e;
 }
  
 table{
-width:100%;
-border-collapse:collapse;
-background:white;
-box-shadow:0 2px 8px rgba(0,0,0,0.15);
+width: 100%;
+border-collapse: collapse;
+background: white;
+margin-top: 15px;
 }
  
 th{
-background:#003366;
-color:white;
-padding:12px;
+background: #003366;
+color: white;
+padding: 10px;
 }
  
 td{
-border:1px solid #ddd;
-padding:8px;
+border: 1px solid #ddd;
+padding: 5px;
 }
  
-input,select{
-width:100%;
-padding:6px;
-box-sizing:border-box;
+input,
+select{
+width: 100%;
+padding: 5px;
+box-sizing: border-box;
 }
- 
-.progress-high{
-color:green;
-font-weight:bold;
-}
- 
-.progress-medium{
-color:orange;
-font-weight:bold;
-}
- 
-.progress-low{
-color:red;
-font-weight:bold;
-}
- 
 </style>
 </head>
  
@@ -128,28 +85,18 @@ font-weight:bold;
  
 <div class="card">
 <h3 id="completedJobs">0</h3>
-<p>Completed</p>
+<p>Completed Jobs</p>
 </div>
  
 <div class="card">
 <h3 id="pendingJobs">0</h3>
-<p>Pending</p>
-</div>
- 
-<div class="card">
-<h3 id="progressAvg">0%</h3>
-<p>Overall Progress</p>
+<p>Pending Jobs</p>
 </div>
  
 </div>
  
-<div class="actions">
- 
-<button onclick="addRow()">➕ Add Job</button>
- 
-<button class="save-btn" onclick="saveData()">💾 Save Data</button>
- 
-</div>
+<button onclick="addRow()">+ Add Job</button>
+<button onclick="saveData()">Save Data</button>
  
 <table id="jobTable">
  
@@ -165,18 +112,9 @@ font-weight:bold;
 </tr>
  
 <tr>
- 
-<td>
-<input value="WT-001">
-</td>
- 
-<td>
-<input value="SONATRACH">
-</td>
- 
-<td>
-<input value="MDZ-01">
-</td>
+<td><input value="WT-001"></td>
+<td><input value="SONATRACH"></td>
+<td><input value="MDZ-01"></td>
  
 <td>
 <select>
@@ -199,44 +137,28 @@ font-weight:bold;
 </td>
  
 <td>
-<input type="number" value="50" oninput="updateDashboard()">
+<input type="number" value="50" min="0" max="100">
 </td>
  
 <td>
-<button class="delete-btn" onclick="deleteRow(this)">X</button>
+<button onclick="deleteRow(this)">X</button>
 </td>
- 
 </tr>
  
 </table>
  
 <script>
  
-let jobCounter = 2;
- 
-function addRow(){
+function addRow() {
  
 let table = document.getElementById("jobTable");
  
 let row = table.insertRow(-1);
  
-let jobNo = "WT-" + String(jobCounter).padStart(3,"0");
- 
-jobCounter++;
- 
 row.innerHTML = `
- 
-<td>
-<input value="${jobNo}">
-</td>
- 
-<td>
-<input>
-</td>
- 
-<td>
-<input>
-</td>
+<td><input></td>
+<td><input></td>
+<td><input></td>
  
 <td>
 <select>
@@ -259,46 +181,46 @@ row.innerHTML = `
 </td>
  
 <td>
-<input type="number" value="0" oninput="updateDashboard()">
+<input type="number" value="0" min="0" max="100">
 </td>
  
 <td>
-<button class="delete-btn" onclick="deleteRow(this)">X</button>
+<button onclick="deleteRow(this)">X</button>
 </td>
- 
 `;
  
 updateDashboard();
 }
  
-function deleteRow(button){
- 
-button.parentElement.parentElement.remove();
- 
+function deleteRow(button) {
+button.closest("tr").remove();
 updateDashboard();
 }
  
-function updateDashboard(){
+function saveData() {
+ 
+localStorage.setItem(
+"trackerData",
+document.getElementById("jobTable").innerHTML
+);
+ 
+alert("Data Saved Successfully");
+}
+ 
+function updateDashboard() {
  
 let rows = document.querySelectorAll("#jobTable tr");
  
-document.getElementById("totalJobs").innerText =
-rows.length - 1;
+let totalJobs = rows.length - 1;
  
 let completed = 0;
 let pending = 0;
-let progressTotal = 0;
-let progressCount = 0;
  
-for(let i=1;i<rows.length;i++){
+rows.forEach((row, index) => {
  
-let status =
-rows[i].cells[4].querySelector("select").value;
+if(index === 0) return;
  
-let progress =
-parseInt(
-rows[i].cells[6].querySelector("input").value
-) || 0;
+let status = row.cells[4].querySelector("select").value;
  
 if(status === "Completed"){
 completed++;
@@ -308,52 +230,23 @@ if(status === "Pending"){
 pending++;
 }
  
-progressTotal += progress;
-progressCount++;
+});
  
+document.getElementById("totalJobs").innerText = totalJobs;
+document.getElementById("completedJobs").innerText = completed;
+document.getElementById("pendingJobs").innerText = pending;
 }
  
-document.getElementById("completedJobs").innerText =
-completed;
+window.onload = function() {
  
-document.getElementById("pendingJobs").innerText =
-pending;
- 
-let average =
-progressCount > 0 ?
-Math.round(progressTotal/progressCount) : 0;
- 
-document.getElementById("progressAvg").innerText =
-average + "%";
- 
-}
- 
-function saveData(){
- 
-localStorage.setItem(
-"WellTestTracker",
-document.getElementById("jobTable").innerHTML
-);
- 
-alert("Data Saved Successfully");
-}
- 
-window.onload = function(){
- 
-let savedData =
-localStorage.getItem("WellTestTracker");
+let savedData = localStorage.getItem("trackerData");
  
 if(savedData){
- 
-document.getElementById("jobTable").innerHTML =
-savedData;
- 
+document.getElementById("jobTable").innerHTML = savedData;
 }
  
 updateDashboard();
-}
- 
-updateDashboard();
+};
  
 </script>
  
