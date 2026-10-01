@@ -150,23 +150,23 @@ box-sizing:border-box;
  
 <script>
  
-function addRow(){
+function addRow() {
  
 let table = document.getElementById("jobTable");
  
 let row = table.insertRow(-1);
  
 row.innerHTML = `
-<td><input></td>
+<td><input type="text"></td>
  
-<td><input></td>
+<td><input type="text"></td>
  
-<td><input></td>
+<td><input type="text"></td>
  
 <td>
 <select>
 <option>High</option>
-<option>Medium</option>
+<option selected>Medium</option>
 <option>Low</option>
 </select>
 </td>
