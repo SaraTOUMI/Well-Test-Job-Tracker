@@ -88,6 +88,7 @@ box-sizing: border-box;
 </div>
   
 <button onclick="addRow()">+ Add Job</button>
+<button onclick="saveData()">Save Data</button>
   
 <table id="jobTable">
    <tr>
@@ -115,6 +116,15 @@ box-sizing: border-box;
      </td>
     
      <td>
+function saveData(){
+ 
+localStorage.setItem(
+"trackerData",
+document.getElementById("jobTable").innerHTML
+);
+ 
+alert("Data Saved Successfully");
+}
         <select onchange="updateDashboard()">
             <option>Pending</option>
             <option selected>In Progress</option>
@@ -192,9 +202,12 @@ document.getElementById("totalJobs").innerText=rows.length-1;
 
   let completed=0;
   
-document.querySelectorAll("#jobTable select").forEach(function(s){
-  
+let statusSelects = document.querySelectorAll(
+'#jobTable tr td:nth-child(5) select'  
 if(s.value==="Completed"){
+); 
+statusSelects.forEach(function(s){
+if(s.value === "Completed"){  
 completed++;
 }
   
